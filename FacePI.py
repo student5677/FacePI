@@ -19,6 +19,13 @@ class FacePI:
         if title:config["title"]=title
 
         self.writeConfig(config)
+    def detectImageUrl(self,imageurl):
+        headers={
+            #Request headers
+            'Content-Type':'application/json',#m/4j;3xj4wj62;31u04g4
+
+            'Ocp-Apim-Subscription-Key':self.readConfig()['api_key'],
+        }
    
 if __name__=='__main__':
     fire.Fire(FacePI)
