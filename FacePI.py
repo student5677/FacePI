@@ -22,7 +22,7 @@ class FacePI:
     def detectImageUrl(self,imageurl):
         headers={
             #Request headers
-            'Content-Type':'application/json',#m/4j;3xj4wj62;31u04g4
+            'Content-Type':'application/json',#用網路圖檔辨識
 
             'Ocp-Apim-Subscription-Key':self.readConfig()['api_key'],
         }
