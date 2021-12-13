@@ -19,6 +19,8 @@ class FacePI:
         if title:config["title"]=title
 
         self.writeConfig(config)
+
+        
     def detectImageUrl(self,imageurl):
         headers={
             #Request headers
@@ -28,9 +30,33 @@ class FacePI:
         }
 
         params=urllib.parse.urlencode({
-
-        
+            #Request parameters
+            'returnFaceId':'true',
+            'returnFaceAttributes':'age,gender',
+            #'recognitionModel':'recognition_04',
+            'returnRecognitionModel':'false',
+            'setectionModel':'detection_01',
+            'faceIdTimeToLive':'86400',
         })
+        #'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure'
+        print('imageurl=',imageurl)
+        requestbody='{"url":"'+imageurl+'"}'
+        try:
+            conn=http.client.HTTPSConnection(self.readConfig()['host'])
+            conn.request("POST","/face/v1.0/detect?%s"%params,requestbody,headers)
+            response=conn.getresponse()
+            data=response.read()
+            json_face_detect=json.loads(str(data,'UTF-8'))
+            print("detectImageUrl.faces=",json_face_detect)
+            conn.close()
+
+            print("detectLocalImage:",
+                f"{imageurl}偵測到{len(json_face_detect)}個人")
+            return json_face_detect
+
+            except Exception as e:
+                print("[Errno {0}]連線失敗!請檢察網路設定。{1}".format(e.errno,e.strerror))
+                #return []
    
 if __name__=='__main__':
     fire.Fire(FacePI)
