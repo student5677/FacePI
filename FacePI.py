@@ -26,6 +26,11 @@ class FacePI:
 
             'Ocp-Apim-Subscription-Key':self.readConfig()['api_key'],
         }
+
+        params=urllib.parse.urlencode({
+
+        
+        })
    
 if __name__=='__main__':
     fire.Fire(FacePI)
